@@ -227,6 +227,10 @@
                     Think before clicking on any option. The question will <strong
                         style="color: #b91c1c; text-decoration: underline;">update automatically</strong> immediately
                     upon selection.
+                <ul>
+                    <li><strong style="color: #b91c1c; text-decoration: underline;">For Every Question (30s)</strong></li>
+                    <li><strong style="color: #b91c1c; text-decoration: underline;">Question update automatically (30s) </strong></li>
+                </ul>
                 </p>
             </div>
 
@@ -781,6 +785,9 @@
             }
         }
 
+        setInterval(() => {
+            nextQuestion()
+        }, 30000);
         function prevQuestion() {
             if (currentQuestionIndex > 0) {
                 loadQuestion(currentQuestionIndex - 1);
