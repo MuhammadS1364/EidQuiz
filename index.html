@@ -1,856 +1,501 @@
 <!DOCTYPE html>
-<html lang="ur">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>علمِ ابراہیمی | Quiz Competition</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Eid Quiz - Anjuman-e-Huda</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
 
         :root {
-            --primary: #1e40af;
-            --accent: #166534;
+            --islamic-green: #0f6b3f;
+            --gold: #d4af37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Noto Nastaliq Urdu', system-ui, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a1f1a 0%, #0f2e24 100%);
+            color: #e5e7eb;
+            min-height: 100vh;
         }
 
-        .question-text {
-            font-size: 1.25rem;
-            line-height: 1.8;
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 15px;
         }
 
-        .option-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        header {
+            text-align: center;
+            padding: 2rem 0;
         }
 
-        .option-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        .logo {
+            font-family: 'Amiri', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
         }
 
-        .selected {
-            background-color: #166534 !important;
-            color: white !important;
-            border-color: #0e1811 !important;
-            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.3);
+        .organizer {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-top: 5px;
         }
 
-        .correct {
-            background-color: #166534 !important;
-            color: white;
+        .section {
+            display: none;
+            animation: fadeIn 0.6s ease;
         }
 
-        .incorrect {
-            background-color: #991b1b;
-            color: white;
+        .active {
+            display: block;
         }
 
-        .progress-bar {
-            transition: width 0.4s ease;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card {
-            background: linear-gradient(145deg, #f8fafc, #e0f2fe);
+            background: rgba(15, 43, 32, 0.95);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--gold);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
 
-        .islamic-pattern {
-            background-image:
-                linear-gradient(rgba(234, 179, 8, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(234, 179, 8, 0.08) 1px, transparent 1px);
-            background-size: 40px 40px;
+        input,
+        button {
+            width: 100%;
+            padding: 16px 20px;
+            margin: 12px 0;
+            border-radius: 12px;
+            font-size: 1.05rem;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--gold);
+            color: white;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4ade80;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--islamic-green), #10b981);
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .timer-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 10px solid #1f3a2f;
+            border-top: 10px solid var(--gold);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: linear-gradient(90deg, var(--gold), #4ade80);
+            border-radius: 9999px;
+            transition: width 0.4s ease;
+        }
+
+        .question-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.45rem;
+            line-height: 1.7;
+            margin: 25px 0;
+            min-height: 130px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid #4b6e5e;
+            border-radius: 18px;
+            padding: 22px;
+            margin: 14px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .option:hover {
+            border-color: var(--gold);
+            transform: scale(1.03);
+        }
+
+        .option.selected {
+            background: #1e3a2f;
+            border-color: #4ade80;
+        }
+
+        .score-circle {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            margin: 25px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            font-weight: 700;
+            border: 16px solid #4ade80;
+            background: rgba(16, 185, 129, 0.1);
+            color: #4ade80;
         }
     </style>
 </head>
 
-<body class="bg-gradient-to-br from-slate-50 to-emerald-50 min-h-screen">
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">عيد الأضحى كوئز</h1>
+            <p class="organizer">Conducted by <strong>Anjuman-e-Huda</strong></p>
+        </header>
 
-    <!-- REGISTRATION SCREEN -->
-    <div id="registerScreen" class="min-h-screen flex items-center justify-center p-4">
-        <div class="max-w-lg w-full">
-            <div class="text-center mb-8">
+        <!-- Email Section -->
+        <div id="email-section" class="section active">
+            <div class="card" style="max-width: 500px; margin: 80px auto;">
+                <h2 style="text-align:center; margin-bottom:1.5rem; color:var(--gold);">Welcome to Eid Quiz</h2>
+                <p style="text-align:center; color:#a3e6c8; margin-bottom:25px;">One Email = One Attempt</p>
+                <!-- <p style="text-align:center; color:#a3e6c8; margin-bottom:25px;"></p> -->
+                
+                <input type="email" id="userEmail" placeholder="Enter your Registered Email.....">
+                <input type="email" id="Full_Name" placeholder="Enter your Full Name.....">
 
-                <div
-                    class="inline-flex items-center justify-center w-20 h-20 bg-emerald-600 text-white rounded-2xl mb-4 shadow-xl">
-                    <i class="fa-solid fa-kaaba text-4xl"></i>
-                </div>
-                <h1 class="text-4xl font-bold text-emerald-800">علمِ ابراہیمی</h1>
-                <p class="text-emerald-700 mt-2 text-lg">Quiz Competition</p>
-                <h3 class="text-center text-2xl font-bold text-emerald-400">Anjuman-e-Huda 2026-27</h3>
-
-            </div>
-
-            <div class="card shadow-2xl rounded-3xl p-8 border border-emerald-100">
-                <h2 class="text-2xl font-semibold text-center mb-6 text-slate-800">Registration Form</h2>
-
-                <form id="playerForm" class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-600 mb-1">User ID</label>
-                        <input type="text" id="UserId" name="UserId"
-                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
-                            readonly value="AUTO-">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-600 mb-1">Full Name<span
-                                class="text-red-500">*</span></label>
-                        <input type="text" id="Full_Name" name="Full_Name" required
-                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
-                            placeholder="Enter your full name">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-600 mb-1">Registered Phone Number <span
-                                class="text-red-500">*</span></label>
-                        <input type="tel" id="Registered_Phone_Number" name="Registered_Phone_Number" required
-                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
-                            placeholder="0300-1234567">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-600 mb-1">College/Institution Name <span
-                                class="text-red-500">*</span></label>
-                        <input type="text" id="College_Institution_Name" name="College_Institution_Name" required
-                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-slate-600 mb-1">City <span
-                                class="text-red-500">*</span></label>
-                        <input type="text" id="Address_City" name="Address_City" required
-                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none">
-                    </div>
-
-                    <button type="submit"
-                        class="w-full bg-emerald-700 hover:bg-emerald-800 transition-colors text-white font-semibold py-4 rounded-3xl text-lg flex items-center justify-center gap-3 shadow-lg">
-                        <i class="fa-solid fa-arrow-right"></i>
-                        Start Quiz
-                    </button>
-                </form>
-            </div>
-            <p class="text-center text-slate-500 text-sm mt-6">Powered by
-                <span class="text-xs bg-yellow-500/10 text-yellow-400 px-3 py-1 rounded-full">MsDeveloper</span>
-                Made with ❤️ for Knowledge
-            </p>
-        </div>
-    </div>
-
-    <!-- QUIZ SCREEN -->
-    <div id="quizScreen" class="hidden min-h-screen bg-slate-950 text-white">
-        <!-- Header -->
-        <div class="sticky top-0 bg-slate-900 border-b border-slate-700 z-50">
-            <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-kaaba text-emerald-400"></i>
-                    <div>
-                        <div class="font-bold text-lg">علمِ ابراہیمی</div>
-                        <!-- Displays the player's name in the quiz header -->
-                        <div class="text-xs text-slate-400" id="playerNameHeader" aria-label="Player Name"></div>
-                    </div>
-                </div>
-                <!-- Centered header line -->
-                <!-- <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                    <div class="font-bold text-center text-xl text-emerald-400">
-                        <span class="text-5xl font-normal">Anjuman-e-Huda</span>
-                    </div>
-                </div> -->
-
-                <div class="flex items-center gap-6">
-                    <div class="text-center">
-                        <div class="text-2xl font-mono font-bold text-emerald-400" id="timer">00:00</div>
-                        <div class="text-[10px] text-slate-400 tracking-widest">TIME</div>
-                    </div>
-
-                    <div class="h-10 w-px bg-slate-700"></div>
-
-                    <div class="text-center">
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-emerald-400 font-bold text-xl" id="currentQ">1</span>
-                            <span class="text-slate-500">/</span>
-                            <span class="text-slate-400" id="totalQ">60</span>
-                        </div>
-                        <div class="h-1.5 w-24 bg-slate-700 rounded-full overflow-hidden mt-1">
-                            <div class="progress-bar h-full bg-gradient-to-r from-emerald-400 to-teal-400 w-1/30"
-                                id="progress"></div>
-                        </div>
-                    </div>
-                </div>
+                <button onclick="checkEmailAndStartQuiz()" class="btn-primary" style="margin-top:25px;">
+                    <i class="fas fa-play"></i> Start Quiz
+                </button>
             </div>
         </div>
 
-        <div class="max-w-4xl mx-auto px-4 py-8">
-            <!-- Question -->
-            <div class="bg-slate-900 rounded-3xl p-8 mb-8 shadow-2xl border border-slate-700 islamic-pattern">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="px-4 py-1 bg-slate-800 text-emerald-400 text-sm font-medium rounded-full" id="qNumber">
-                    </div>
-                    <div class="text-slate-400 text-sm">حضرت ابراہیم علیہ السلام / قربانی کے مسائل</div>
+        <!-- Quiz Section -->
+        <div id="quiz-section" class="section">
+            <div class="card">
+                <div class="progress-bar" id="progress" style="width:0%; margin-bottom:18px;"></div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <span id="question-number" style="font-size:1.2rem; font-weight:600; color:var(--gold);"></span>
+                    <div class="timer-circle" id="timer-circle"><span id="timer">30</span></div>
                 </div>
 
-                <p id="questionText" class="question-text text-2xl leading-relaxed text-slate-100"></p>
+                <h3 id="question-text" class="question-text"></h3>
+                <div id="options-container"></div>
             </div>
-
-            <!-- Options -->
-            <div id="optionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Populated by JS -->
-            </div>
-
-            <!-- Footer Controls -->
-            <!-- <div class="mt-10 flex justify-between items-center max-w-2xl mx-auto">
-                <button onclick="prevQuestion()" id="prevBtn"
-                    class="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl flex items-center gap-2 transition-colors disabled:opacity-50">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    <span>پچھلا</span>
-                </button>
-
-                <button onclick="nextQuestion()" id="nextBtn"
-                    class="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 rounded-3xl flex items-center gap-3 font-semibold transition-all">
-                    <span id="nextText">next Question</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div> -->
-            <div class="awareness-banner max-w-4xl mx-auto px-4 py-8"
-                style="max-width: 896px; margin: 2rem auto; padding: 1.5rem; border: 2px solid #dc2626; border-radius: 8px; background-color: #fef2f2; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); font-family: system-ui, -apple-system, sans-serif; box-sizing: border-box;">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                    <!-- Warning Icon Accent -->
-                    <span style="font-size: 1.5rem; line-height: 1;" aria-hidden="true">⚠️</span>
-                    <h2
-                        style="margin: 0; font-size: 1.25rem; font-weight: 700; color: #991b1b; text-transform: uppercase; letter-spacing: 0.05em;">
-                        Pay Attention!
-                    </h2>
-                </div>
-                <p style="margin: 0; font-size: 1rem; line-height: 1.5; color: #7f1d1d; font-weight: 500;">
-                    Think before clicking on any option. The question will <strong
-                        style="color: #b91c1c; text-decoration: underline;">update automatically</strong> immediately
-                    upon selection.
-                <ul>
-                    <li><strong style="color: #b91c1c; text-decoration: underline;">For Every Question (30s)</strong></li>
-                    <li><strong style="color: #b91c1c; text-decoration: underline;">Question update automatically (30s) </strong></li>
-                </ul>
-                </p>
-            </div>
-
         </div>
-    </div>
 
-    <!-- RESULT SCREEN -->
-    <div id="resultScreen"
-        class="hidden min-h-screen bg-gradient-to-br from-emerald-900 to-slate-950 text-white flex items-center justify-center p-4">
-        <div
-            class="max-w-2xl w-full bg-slate-900/90 backdrop-blur-xl rounded-3xl p-10 border border-emerald-500/30 shadow-2xl">
-            <div class="text-center mb-8">
-                <div id="scoreCircle"
-                    class="w-32 h-32 mx-auto rounded-full border-8 border-emerald-500 flex items-center justify-center text-5xl font-bold mb-6">
-                </div>
-                <h2 class="text-4xl font-bold mb-2" id="resultTitle">مبارک ہو!</h2>
-                <p class="text-emerald-300" id="resultSubtitle"></p>
-            </div>
+        <!-- Results Section -->
+        <div id="results-section" class="section">
+            <div class="card" style="max-width:620px; margin:40px auto; text-align:center;">
+                <h2 style="color:#4ade80;">Quiz Completed Successfully!</h2>
 
-            <div class="grid grid-cols-2 gap-4 mb-10">
-                <div class="bg-slate-800 rounded-2xl p-6 text-center">
-                    <div class="text-emerald-400 text-sm">صحیح جوابات</div>
-                    <div class="text-5xl font-bold text-emerald-400 mt-2" id="correctCount">18</div>
-                </div>
-                <div class="bg-slate-800 rounded-2xl p-6 text-center">
-                    <div class="text-red-400 text-sm">غلط جوابات</div>
-                    <div class="text-5xl font-bold text-red-400 mt-2" id="incorrectCount">7</div>
-                </div>
-            </div>
+                <div class="score-circle" id="score-circle">85%</div>
 
-            <div class="space-y-4 text-sm">
-                <div class="flex justify-between py-3 border-b border-slate-700">
-                    <span class="text-slate-400">نام:</span>
-                    <span id="resName" class="font-medium"></span>
+                <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:15px; margin:25px 0;">
+                    <div>
+                        <p style="color:#94a3b8;">Total</p>
+                        <p id="total-q" style="font-size:2.2rem; font-weight:700;">20</p>
+                    </div>
+                    <div>
+                        <p style="color:#4ade80;">Correct</p>
+                        <p id="correct-count" style="font-size:2.2rem; font-weight:700; color:#4ade80;">17</p>
+                    </div>
+                    <div>
+                        <p style="color:#f87171;">Incorrect</p>
+                        <p id="incorrect-count" style="font-size:2.2rem; font-weight:700; color:#f87171;">3</p>
+                    </div>
                 </div>
-                <div class="flex justify-between py-3 border-b border-slate-700">
-                    <span class="text-slate-400">Player ID:</span>
-                    <span id="resPlayerId" class="font-mono"></span>
-                </div>
-                <div class="flex justify-between py-3 border-b border-slate-700">
-                    <span class="text-slate-400">شروع کا وقت:</span>
-                    <span id="resStart" class="font-mono"></span>
-                </div>
-                <div class="flex justify-between py-3 border-b border-slate-700">
-                    <span class="text-slate-400">ختم کا وقت:</span>
-                    <span id="resEnd" class="font-mono"></span>
-                </div>
-                <div class="flex justify-between py-3 border-b border-slate-700">
-                    <span class="text-slate-400">کل وقت:</span>
-                    <span id="resTime" class="font-medium"></span>
-                </div>
-            </div>
 
-            <div class="mt-10 flex gap-4">
-                <button onclick="restartQuiz()"
-                    class="flex-1 py-5 bg-slate-800 hover:bg-slate-700 rounded-3xl font-semibold transition-colors">
-                    Restart Quiz
-                </button>
-                <button onclick="window.location.reload()"
-                    class="flex-1 py-5 bg-emerald-600 hover:bg-emerald-700 rounded-3xl font-semibold transition-colors">
-                    Thank You!
+                <p id="time-taken" style="font-size:1.35rem; margin:20px 0;"></p>
+
+                <button onclick="submitResult()" class="btn-primary" style="margin-top:25px;">
+                    <i class="fas fa-save"></i> Save My Results
                 </button>
             </div>
         </div>
     </div>
 
+    <div id="toast"
+        style="position:fixed; bottom:25px; right:25px; padding:16px 26px; border-radius:16px; color:white; display:none; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:9999;">
+    </div>
+
+    <script src="QuestionBanks.js"></script>
     <script>
-        // Questions Bank (your original + more if needed)
-        const QuestionsBank = [
-            {
-                "id": 1,
-                "question": "حضرت اسحاق علیہ السلام کی بشارت کب ملی؟",
-                "options": ["قربانی کے بعد", "قربانی سے پہلے", "اور B دونوں سیاق میں ممکن مگر A غالب", "مصر سے واپسی پر"],
-                "answer": "قربانی کے بعد"
-            },
-            {
-                "id": 2,
-                "question": "آگ میں ڈالے جانے سے پہلے حضرت ابراہیم علیہ السلام نے جو دعا پڑھی تھی وہ کیا تھی؟",
-                "options": ["ربنا تقبل منا", "حسبنا اللہ ونعم الوکیل", "ربنا آتنا فی الدنیا حسنۃ", "لا حول ولا قوۃ الا باللہ"],
-                "answer": "حسبنا اللہ ونعم الوکیل"
-            },
-            {
-                "id": 3,
-                "question": "حضرت ابراہیم علیہ السلام نے عید کے دن قوم کے ساتھ جانے سے انکار کرتے ہوئے کیا بہانہ کیا؟",
-                "options": ["میں بیمار ہوں", "مجھے اللہ نے روکا ہے", "میں تمہارے بتوں سے بیزار ہوں", "میں تم مشرکوں کا ساتھ نہیں دے سکتا"],
-                "answer": "میں بیمار ہوں"
-            },
-            {
-                "id": 4,
-                "question": "حضرت لوط علیہ السلام کا حضرت ابراہیم علیہ السلام کے ساتھ تعلق کیا تھا، جبکہ ان کے واقعات اکثر ساتھ بیان کیے جاتے ہیں؟",
-                "options": ["سگے بھائی", "چچا زاد", "بھتیجے", "بھائی زاد"],
-                "answer": "بھتیجے"
-            },
-            {
-                "id": 5,
-                "question": "مصر کے ظالم بادشاہ کے سامنے حضرت ابراہیم علیہ السلام نے حضرت سارہ علیہ السلام کے بارے میں کیا کہا؟",
-                "options": ["یہ میری بہن ہیں", "یہ میری بیوی ہیں", "یہ میری لونڈی ہیں", "یہ میری رشتہ دار ہیں"],
-                "answer": "یہ میری بہن ہیں"
-            },
-            {
-                "id": 6,
-                "question": "حضرت ابراہیم علیہ السلام نے حج کا اعلان کرنے کے لیے کہاں آواز لگائی؟",
-                "options": ["صفا پر", "مروہ پر", "عرفات کے پہاڑ پر", "مقام ابراہیم پر"],
-                "answer": "عرفات کے پہاڑ پر"
-            },
-            {
-                "id": 7,
-                "question": "حضرت ابراہیم علیہ السلام نے دعا کی تھی کہ مکہ کو امن والا شہر بنائے --- یہ دعا کب کی گئی؟",
-                "options": ["ہجرت سے پہلے", "بیت اللہ کی بنیاد رکھتے ہوئے", "قربانی کے بعد", "آگ کے معجزے کے فوراً بعد"],
-                "answer": "بیت اللہ کی بنیاد رکھتے ہوئے"
-            },
-            {
-                "id": 8,
-                "question": "حضرت سارہ علیہ السلام نے حضرت ہاجرہ کو تحفے میں کیوں دیا؟",
-                "options": ["شدید اولاد کی خواہش کی وجہ سے", "اللہ کا براہ راست حکم تھا", "حسد کی وجہ سے", "بادشاہ کے دباؤ سے"],
-                "answer": "شدید اولاد کی خواہش کی وجہ سے"
-            },
-            {
-                "id": 9,
-                "question": "حضرت ابراہیم علیہ السلام نے ستارہ پرست قوم کو کس ترتیب سے دیکھا؟",
-                "options": ["ستارہ → چاند → سورج", "سورج → چاند → ستارہ", "چاند → سورج → ستارہ", "سورج → ستارہ → چاند"],
-                "answer": "ستارہ → چاند → سورج"
-            },
-            {
-                "id": 10,
-                "question": "حضرت ابراہیم علیہ السلام نے بابل چھوڑ کر کہاں ہجرت کی؟",
-                "options": ["شام کی طرف", "مصر کی طرف", "مکہ کی طرف", "فلسطین کی طرف"],
-                "answer": "شام کی طرف"
-            },
-            {
-                "id": 11,
-                "question": "حضرت ابراہیم علیہ السلام نے مصر سے واپس آ کر کہاں رہائش اختیار کی؟",
-                "options": ["فلسطین", "مکہ", "بابل", "شام"],
-                "answer": "فلسطین"
-            },
-            {
-                "id": 12,
-                "question": "حضرت ابراہیم علیہ السلام نے اللہ سے امامت کا وعدہ مانگا تو اللہ نے کیا فرمایا؟",
-                "options": ["تمہاری تمام اولاد کو امام بناؤں گا", "میرے وعدے میں ظالم شامل نہیں", "تم خود امام ہو", "اولاد کو نہیں دوں گا"],
-                "answer": "میرے وعدے میں ظالم شامل نہیں"
-            },
-            {
-                "id": 13,
-                "question": "آگ ٹھنڈی ہونے کے بعد صرف کیا جلا تھا؟",
-                "options": ["کپڑے", "جسم کا حصہ", "رسی", "کچھ بھی نہیں جلا"],
-                "answer": "رسی"
-            },
-            {
-                "id": 14,
-                "question": "حضرت ابراہیم علیہ السلام نے حضرت اسماعیل علیہ السلام سے قربانی کے بارے میں مشورہ کیوں لیا؟",
-                "options": ["بیٹے کو بھی اجر میں شریک کرنے کے لیے", "خود کو یقین دلانے کے لیے", "بیٹا روئے گا اس لیے اجازت لینی تھی", "اللہ کا حکم واضح ہونے کے باوجود بھی بیٹے کی رائے لینا"],
-                "answer": "بیٹے کو بھی اجر میں شریک کرنے کے لیے"
-            },
-            {
-                "id": 15,
-                "question": "حضرت ابراہیم علیہ السلام نے قوم سے کہا کہ تم مجھ سے اللہ کے بارے میں جھگڑتے ہو حالانکہ؟",
-                "options": ["مجھے اللہ نے ہدایت دی ہے", "میں گمراہ ہوں", "تم درست ہو", "اللہ مجھ سے ابھی ابھی راضی ہوا ہے"],
-                "answer": "مجھے اللہ نے ہدایت دی ہے"
-            },
-            {
-                "id": 16,
-                "question": "حضرت ابراہیم علیہ السلام کی پیدائش کہاں ہوئی؟",
-                "options": ["شام", "مصر", "بابل", "فلسطین"],
-                "answer": "بابل"
-            },
-            {
-                "id": 17,
-                "question": "ابراہیم علیہ السلام کی زندگی کا مرکزی سبق کیا ہے؟",
-                "options": ["اطاعت", "صبر", "قناعت", "قربانی"],
-                "answer": "اطاعت"
-            },
-            {
-                "id": 18,
-                "question": "حضرت ابراہیم علیہ السلام کے بارے میں کون سا بیان درست ہے؟",
-                "options": ["انہوں نے والد کے لیے ہمیشہ استغفار کیا", "انہوں نے بابل چھوڑ کر شام کی طرف ہجرت کی", "انہوں نے بیت اللہ کی تعمیر میں حضرت اسحاق کے ساتھ کام کیا", "آگ میں ان کے کپڑے جل گئے تھے"],
-                "answer": "انہوں نے بابل چھوڑ کر شام کی طرف ہجرت کی"
-            },
-            {
-                "id": 19,
-                "question": "کون سا بیان غلط ہے؟",
-                "options": ["حضرت ابراہیم نے \"حسبنا اللہ ونعم الوکیل\" پڑھا", "زمزم حضرت اسماعیل کے قدم سے نکلا", "حضرت ابراہیم نے تین بار توریہ کیا", "حضرت اسحاق کی پیدائش پر حضرت ابراہیم کی عمر 86 سال تھی"],
-                "answer": "حضرت اسحاق کی پیدائش پر حضرت ابراہیم کی عمر 86 سال تھی"
-            },
-            {
-                "id": 20,
-                "question": "نمرود کے ساتھ مناظرے میں حضرت ابراہیم علیہ السلام نے سورج کے مشرق سے آنے کا حوالہ دیا۔ نمرود اس وقت کس شہر/علاقے کا بادشاہ تھا؟",
-                "options": ["بابل", "مصر", "حران", "شام"],
-                "answer": "بابل"
-            },
-            {
-                "id": 21,
-                "question": "اگر قربانی کے ایام شروع ہونے سے پہلے ہی قربانی کا جانور کسی وجہ سے مر جائے، تو صاحبِ نصاب (امیر) کے لیے کیا حکم ہے؟",
-                "options": ["اس پر دوسری قربانی واجب نہیں ہے۔", "اس پر لازم ہے کہ وہ دوسرا جانور خرید کر قربانی کرے۔", "اس پر جانور کی قیمت صدقہ کرنا واجب ہے۔", "وہ اگلے سال دو قربانیاں کرے گا۔"],
-                "answer": "اس پر لازم ہے کہ وہ دوسرا جانور خرید کر قربانی کرے۔"
-            },
-            {
-                "id": 22,
-                "question": "اگر ایک شرعی فقیر (غریب) نے قربانی کی نیت سے جانور خریدا اور وہ ایامِ قربانی سے پہلے مر گیا، تو اس فقیر کے لیے کیا حکم ہے؟",
-                "options": ["اس پر دوسرا جانور خریدنا واجب ہے۔", "اس پر اس جانور کی قیمت صدقہ کرنا لازم ہے۔", "اس پر اب کوئی قربانی واجب نہیں ہے، کیونکہ خریدنے سے جو واجب ہوئی تھی وہ جانور کے ہلاک ہونے سے ساقط ہو گئی۔", "اس پر اگلے سال قربانی کرنا فرض ہو جائے گا۔"],
-                "answer": "اس پر اب کوئی قربانی واجب نہیں ہے، کیونکہ خریدنے سے جو واجب ہوئی تھی وہ جانور کے ہلاک ہونے سے ساقط ہو گئی۔"
-            },
-            {
-                "id": 23,
-                "question": "اگر کسی شخص پر قربانی واجب تھی لیکن اس نے قربانی نہیں کی یہاں تک کہ بقرعید کے دن گزر گئے، اب وہ اس کی قضا کیسے کرے گا؟",
-                "options": ["وہ اگلے سال بقرعید میں دو قربانیاں کرے گا۔", "وہ ایک بکری یا بڑے جانور کے ساتویں حصے کی قیمت یا خود جانور غریبوں میں صدقہ کرے گا۔", "اس پر صرف توبہ لازم ہے، قضا کی کوئی صورت نہیں ہے۔", "وہ مسلسل تین دن روزے رکھے گا۔"],
-                "answer": "وہ ایک بکری یا بڑے جانور کے ساتویں حصے کی قیمت یا خود جانور غریبوں میں صدقہ کرے گا۔"
-            },
-            {
-                "id": 24,
-                "question": "اگر کسی شخص نے قربانی کے لیے جانور خریدا، پھر قربانی نہیں کی اور ایامِ قربانی گزرنے کے بعد اس جانور کو منافع پر بیچ دیا، تو حاصل ہونے والے نفع کا کیا حکم ہے؟",
-                "options": ["وہ نفع اپنے ذاتی استعمال میں لا سکتا ہے۔", "وہ نفع اور جانور کی اصل قیمت دونوں کا صدقہ کرنا واجب ہے۔", "نفع کو آدھا اپنے پاس رکھے اور آدھا خیرات کرے۔", "جانور بیچنا ہی باطل ہے، اسے واپس لینا ہوگا۔"],
-                "answer": "وہ نفع اور جانور کی اصل قیمت دونوں کا صدقہ کرنا واجب ہے۔"
-            },
-            {
-                "id": 26,
-                "question": "بڑے جانور (گائے، اونٹ) میں زیادہ سے زیادہ کتنے افراد شریک ہو سکتے ہیں اور کیا سات سے کم افراد برابر کے شریک ہو سکتے ہیں؟",
-                "options": ["زیادہ سے زیادہ سات افراد ہو سکتے ہیں، اور سات سے کم کا برابر شریک ہونا جائز ہے۔", "صرف سات افراد ہی ہو سکتے ہیں، کم نہیں ہو سکتے۔", "زیادہ سے زیادہ آٹھ افراد ہو سکتے ہیں۔", "سات سے کم شریک ہونے پر قربانی فاسد ہو جائے گی۔"],
-                "answer": "زیادہ سے زیادہ سات افراد ہو سکتے ہیں، اور سات سے کم کا برابر شریک ہونا جائز ہے۔"
-            },
-            {
-                "id": 27,
-                "question": "قربانی کا شرعی وقت کب سے کب تک ہے؟",
-                "options": ["۱۰ ذی الحجہ کی صبح صادق سے ۱۲ ذی الحجہ کے غروبِ آفتاب تک۔", "۱۰ ذی الحجہ سے ۱۳ ذی الحجہ کے غروبِ آفتاب تک۔", "صرف ۱۰ اور ۱۱ ذی الحجہ کو۔", "عید کی نماز سے لے کر ذی الحجہ کے آخر تک۔"],
-                "answer": "۱۰ ذی الحجہ کی صبح صادق سے ۱۲ ذی الحجہ کے غروبِ آفتاب تک۔"
-            },
-            {
-                "id": 28,
-                "question": "کیا قربانی کے ان تین دنوں میں رات کے وقت جانور ذبح کرنا جائز ہے؟",
-                "options": ["رات میں قربانی کرنا مطلقاً حرام ہے۔", "رات میں قربانی کرنا جائز ہے، لیکن اندھیرے کی وجہ سے مکروہِ تنزیہی ہے۔", "رات کی قربانی زیادہ افضل ہے۔", "صرف ۱۱ ذی الحجہ کی رات کو جائز ہے۔"],
-                "answer": "رات میں قربانی کرنا جائز ہے، لیکن اندھیرے کی وجہ سے مکروہِ تنزیہی ہے۔"
-            },
-            {
-                "id": 29,
-                "question": "شہر میں رہنے والے لوگوں کے لیے قربانی کے پہلے دن ذبح کرنے کا وقت کب شروع ہوتا ہے؟",
-                "options": ["۱۰ ذی الحجہ کی صبح صادق ہوتے ہی۔", "شہر کی کسی بھی ایک جگہ پر عید کی نماز اور خطبہ مکمل ہو جانے کے بعد۔", "زوالِ آفتاب کے بعد۔", "صبح کی نماز سے پہلے۔"],
-                "answer": "شہر کی کسی بھی ایک جگہ پر عید کی نماز اور خطبہ مکمل ہو جانے کے بعد۔"
-            },
-            {
-                "id": 31,
-                "question": "قربانی کے وجوب کا انکار کرنے والے شخص کے بارے میں شریعت کا کیا حکم ہے؟",
-                "options": ["وہ دائرۂ اسلام سے خارج ہو جاتا ہے۔", "وہ گمراہ اور فاسق کہلائے گا کیونکہ قربانی کا وجوب دلائلِ ظنیہ سے ثابت ہے۔", "اس پر کوئی گناہ نہیں ہے۔", "اسے صرف مالی جرمانہ کیا جائے گا۔"],
-                "answer": "وہ گمراہ اور فاسق کہلائے گا کیونکہ قربانی کا وجوب دلائلِ ظنیہ سے ثابت ہے۔"
-            },
-            {
-                "id": 33,
-                "question": "اگر جنگلی ہرن یا نیل گائے کو گھر میں پال لیا جائے، تو کیا ان کی قربانی جائز ہوگی؟",
-                "options": ["ہاں، مانوس ہونے کے بعد جائز ہو جائے گی۔", "نہیں، کیونکہ ان کی اصل نسل جنگلی ہے۔", "صرف نیل گائے کی جائز ہوگی۔", "مکروہِ تحریمی کے ساتھ جائز ہے۔"],
-                "answer": "نہیں، کیونکہ ان کی اصل نسل جنگلی ہے۔"
-            },
-            {
-                "id": 34,
-                "question": "قربانی کے جانوروں کی کم از کم عمر کتنی ہونی چاہیے؟",
-                "options": ["بکری ۱ سال، گائے ۲ سال، اونٹ ۵ سال؛ البتہ ۶ ماہ کا دنبہ اگر سال بھر کا لگے تو جائز ہے۔", "تمام جانوروں کی عمر کم از کم ۲ سال ہونی چاہیے۔", "بکری ۲ سال، گائے ۳ سال، اونٹ ۷ سال۔", "عمر کی کوئی قید نہیں۔"],
-                "answer": "بکری ۱ سال، گائے ۲ سال، اونٹ ۵ سال؛ البتہ ۶ ماہ کا دنبہ اگر سال بھر کا لگے تو جائز ہے۔"
-            },
-            {
-                "id": 35,
-                "question": "اگر کسی جانور کو خارش کی بیماری ہو، تو کیا اس کی قربانی جائز ہے؟",
-                "options": ["خارش زدہ جانور کی قربانی مطلقاً ناجائز ہے۔", "جائز ہے، بشرطیکہ وہ انتہائی لاغر نہ ہو گیا ہو۔", "صرف بکری میں جائز ہے۔", "مکروہِ تحریمی ہے۔"],
-                "answer": "جائز ہے، بشرطیکہ وہ انتہائی لاغر نہ ہو گیا ہو۔"
-            },
-            {
-                "id": 36,
-                "question": "اگر کسی جانور کی زبان کٹی ہوئی ہو، تو کتنی زبان کٹنے پر قربانی ناجائز ہو جاتی ہے؟",
-                "options": ["تھوڑی سی بھی کٹی ہو تو ناجائز ہے۔", "اگر ایک تہائی یا اس سے زیادہ زبان کٹ چکی ہو۔", "زبان کٹنے سے کوئی فرق نہیں پڑتا۔", "نصف زبان کٹنے پر ناجائز ہوتی ہے۔"],
-                "answer": "اگر ایک تہائی یا اس سے زیادہ زبان کٹ چکی ہو۔"
-            },
-            {
-                "id": 38,
-                "question": "اگر کسی جانور کے پیدائشی طور پر سینگ نہ ہوں تو اس کی قربانی کا کیا حکم ہے؟",
-                "options": ["قربانی ناجائز ہے۔", "مکروہِ تحریمی ہے۔", "بلا کراہت جائز ہے۔", "صرف اونٹ میں جائز ہے۔"],
-                "answer": "بلا کراہت جائز ہے۔"
-            },
-            {
-                "id": 39,
-                "question": "اگر کسی جانور کا سینگ جڑ سے ٹوٹ گیا ہو اور دماغ متاثر ہو گیا ہو، تو کیا حکم ہے؟",
-                "options": ["جائز ہے۔", "ناجائز ہے۔", "مکروہِ تنزیہی ہے۔", "صرف امیر کے لیے جائز ہے۔"],
-                "answer": "ناجائز ہے۔"
-            },
-            {
-                "id": 41,
-                "question": "اگر کسی جانور کے دانت بالکل نہ ہوں تو کیا اس کی قربانی ہو سکتی ہے؟",
-                "options": ["اگر چارہ نہ کھا سکے تو ناجائز ہے، اور اگر کھا لیتا ہو تو جائز ہے۔", "مطلقاً ناجائز ہے۔", "صرف گائے میں جائز ہے۔", "ہر حال میں جائز ہے۔"],
-                "answer": "اگر چارہ نہ کھا سکے تو ناجائز ہے، اور اگر کھا لیتا ہو تو جائز ہے۔"
-            },
-            {
-                "id": 42,
-                "question": "بانجھ مادہ جانور کی قربانی کا کیا حکم ہے؟",
-                "options": ["ناجائز ہے۔", "جائز ہے بلکہ اس کا گوشت عمدہ ہوتا ہے۔", "صرف بڑے جانور میں جائز ہے۔", "مکروہِ تحریمی ہے۔"],
-                "answer": "جائز ہے بلکہ اس کا گوشت عمدہ ہوتا ہے۔"
-            },
-            {
-                "id": 43,
-                "question": "خنثیٰ جانور کی قربانی کا کیا حکم ہے؟",
-                "options": ["جائز ہے۔", "جائز نہیں ہے۔", "صرف غریب کے لیے جائز ہے۔", "کراہت کے ساتھ جائز ہے۔"],
-                "answer": "جائز نہیں ہے۔"
-            },
-            {
-                "id": 45,
-                "question": "جلالہ جانور (جو صرف نجاست کھاتا ہو) کی قربانی کا کیا حکم ہے؟",
-                "options": ["اگر گوشت میں بدبو ہو تو مکروہِ تحریمی ہے، جب تک پاک چارہ نہ کھلایا جائے۔", "مطلقاً جائز ہے۔", "صرف غیر مسلم کو کھلانے کے لیے جائز ہے۔", "اسے ذبح کرنا حرام ہے۔"],
-                "answer": "اگر گوشت میں بدبو ہو تو مکروہِ تحریمی ہے، جب تک پاک چارہ نہ کھلایا جائے۔"
-            },
-            {
-                "id": 48,
-                "question": "اگر گائے یا بھینس کے چار تھنوں میں سے ایک یا دو خراب ہو جائیں، تو کیا حکم ہے؟",
-                "options": ["ایک خراب ہو تو جائز ہے، دو خراب ہوں تو جائز نہیں۔", "تمام خراب ہونے پر بھی جائز ہے۔", "ایک خراب ہونے پر بھی ناجائز ہے۔", "تھنوں کا کوئی اعتبار نہیں۔"],
-                "answer": "ایک خراب ہو تو جائز ہے، دو خراب ہوں تو جائز نہیں۔"
-            },
-            {
-                "id": 49,
-                "question": "اگر کسی بیمار جانور کی قربانی کرنی ہو، تو بیماری کی کس حد پر قربانی درست نہیں ہوتی ہے؟",
-                "options": ["معمولی بیماری پر بھی ناجائز ہے۔", "اگر وہ اپنے پاؤں سے چل کر مذبح تک نہ جا سکے۔", "بیماری کا کوئی تعلق نہیں۔", "صرف کھانسی ہونے پر ناجائز ہے۔"],
-                "answer": "اگر وہ اپنے پاؤں سے چل کر مذبح تک نہ جا سکے۔"
-            },
-            {
-                "id": 51,
-                "question": "عورت پر تکبیرِ تشریق کہنے کا کیا حکم ہے اگر وہ شہر میں کسی مقیم مرد امام کے پیچھے نماز ادا کرے؟",
-                "options": ["عورت پر صرف سنت ہے، واجب نہیں۔", "عورت پر آہستہ آواز میں امام کی پیروی میں تکبیر کہنا واجب ہو جاتا ہے۔", "عورت پر بلند آواز سے تکبیر کہنا واجب ہو جاتا ہے۔", "عورت پر تکبیر کہنا واجب نہیں کیونکہ وہ عورت ہے۔"],
-                "answer": "عورت پر آہستہ آواز میں امام کی پیروی میں تکبیر کہنا واجب ہو جاتا ہے۔"
-            },
-            {
-                "id": 52,
-                "question": "کیا مسافر یا گاؤں (دیہات) کے اکیلے نماز پڑھنے والے شخص پر تکبیرِ تشریق کہنا واجب ہے؟",
-                "options": ["صرف مسافر پر واجب ہے، دیہات والے پر نہیں۔", "ہاں، ہر حالت میں واجب ہے۔", "صرف دیہات والے پر واجب ہے، مسافر پر نہیں۔", "نہیں، مسافر اور دیہات کے اکیلے نماز پڑھنے والے پر واجب نہیں ہے۔"],
-                "answer": "نہیں، مسافر اور دیہات کے اکیلے نماز پڑھنے والے پر واجب نہیں ہے۔"
-            },
-            {
-                "id": 53,
-                "question": "اگر کوئی مسافر امام بن کر شہر کے مقیم لوگوں کو نماز پڑھائے تو کیا اس مسافر امام پر تکبیرِ تشریق کہنا واجب ہوگا؟",
-                "options": ["صرف مقتدیوں پر واجب ہوگا، امام پر نہیں۔", "نہیں، کیونکہ وہ اصلی مسافر ہے۔", "ہاں، مقیم مقتدیوں کی امامت کی وجہ سے امام پر بھی واجب ہو جائے گا۔", "دونوں میں سے کسی پر واجب نہیں ہوگا۔"],
-                "answer": "ہاں، مقیم مقتدیوں کی امامت کی وجہ سے امام پر بھی واجب ہو جائے گا۔"
-            },
-            {
-                "id": 54,
-                "question": "اگر نماز کے بعد امام تکبیرِ تشریق کہنا بھول جائے تو مقتدیوں کے لیے کیا حکم ہے؟",
-                "options": ["مقتدیوں کو امام کے یاد آنے تک انتظار کرنا چاہیے۔", "مقتدیوں پر سے بھی تکبیر ساقط ہو جائے گی۔", "مقتدیوں پر واجب ہے کہ فوراً بلند آواز سے تکبیر کہیں۔", "مقتدیوں کو آہستہ سے کہنا چاہیے چاہے وہ مرد ہی کیوں نہ ہوں۔"],
-                "answer": "مقتدیوں پر واجب ہے کہ فوراً بلند آواز سے تکبیر کہیں۔"
-            },
-            {
-                "id": 55,
-                "question": "قربانی کے مسئلے میں \"مالکِ نصاب\" ہونے کا کیا مطلب ہے؟",
-                "options": ["صرف چونتیس (34) بھاری سونا ہونا ضروری ہے۔", "صرف کھیتی کی زمین کا ہونا کافی ہے چاہے وہ آمدنی کا ذریعہ ہو۔", "ساڑھے باون تولہ چاندی یا اس کی قیمت کے برابر مالِ تجارت یا ضرورت سے زائد سامان ہونا۔", "زکوٰۃ کی طرح مال پر ایک سال گزرنا شرط ہے۔"],
-                "answer": "ساڑھے باون تولہ چاندی یا اس کی قیمت کے برابر مالِ تجارت یا ضرورت سے زائد سامان ہونا۔"
-            },
-            {
-                "id": 56,
-                "question": "مسئلۂ قربانی میں \"حاجتِ اصلیہ\" سے کیا مراد ہے؟",
-                "options": ["گھر میں موجود عیش و آرام کی چیزیں جیسے LCD یا دوسری گاڑی۔", "سونا اور چاندی جو گھر میں محفوظ رکھا ہو۔", "تجارت کا مال اور دکان کا اسٹاک۔", "ہر وہ چیز جو انسان کی زندگی گزارنے کے لیے ضروری ہو، جیسے رہنے کا گھر، پہننے کے کپڑے اور پیشے کے اوزار۔"],
-                "answer": "ہر وہ چیز جو انسان کی زندگی گزارنے کے لیے ضروری ہو، جیسے رہنے کا گھر، پہننے کے کپڑے اور پیشے کے اوزار۔"
-            },
-            {
-                "id": 57,
-                "question": "اگر کوئی شخص قرض دار ہو تو کیا اس پر قربانی واجب ہوگی؟",
-                "options": ["ہاں، چاہے قرض کتنا ہی زیادہ کیوں نہ ہو۔", "اگر قرض نکالنے کے بعد بھی اس کے پاس نصاب کے برابر مال بچے تو قربانی واجب ہوگی۔", "مقروض پر قربانی کسی بھی حال میں واجب نہیں ہوتی۔", "قرض کا قربانی سے کوئی تعلق نہیں ہے۔"],
-                "answer": "اگر قرض نکالنے کے بعد بھی اس کے پاس نصاب کے برابر مال بچے تو قربانی واجب ہوگی۔"
-            },
-            {
-                "id": 58,
-                "question": "اگر کسی کے پاس کھیتی کی ایسی زمین ہو جو اس کی آمدنی کا واحد ذریعہ ہو اور اس کی قیمت نصاب تک پہنچتی ہو، تو کیا اس پر قربانی واجب ہوگی؟",
-                "options": ["ہاں، کیونکہ زمین کی قیمت نصاب سے زیادہ ہے۔", "نہیں، کیونکہ آمدنی کا ذریعہ بننے والی زمین حاجتِ اصلیہ میں شمار ہوتی ہے۔", "صرف تب واجب ہوگی جب زمین پر کھیتی نہ ہو رہی ہو۔", "اس کی آدھی قیمت پر قربانی واجب ہوگی۔"],
-                "answer": "نہیں، کیونکہ آمدنی کا ذریعہ بننے والی زمین حاجتِ اصلیہ میں شمار ہوتی ہے۔"
-            },
-            {
-                "id": 59,
-                "question": "کیا TV، Dish Antenna اور LCD جیسی چیزیں شریعت کے مطابق حاجتِ اصلیہ میں داخل ہیں؟",
-                "options": ["ہاں، یہ آج کے زمانے کی بنیادی ضرورت ہیں۔", "نہیں، یہ حاجتِ اصلیہ میں داخل نہیں اور ان کی قیمت نصاب میں شمار ہوگی۔", "صرف TV حاجتِ اصلیہ میں ہے، ڈش اینٹینا نہیں۔", "گھر کے ہر سامان کی طرح یہ بھی معاف ہیں۔"],
-                "answer": "نہیں، یہ حاجتِ اصلیہ میں داخل نہیں اور ان کی قیمت نصاب میں شمار ہوگی۔"
-            },
-            {
-                "id": 60,
-                "question": "اگر کوئی شخص صاحبِ نصاب ہو لیکن اس کے پاس نقد رقم نہ ہو تو کیا اس پر قربانی واجب ہوگی؟",
-                "options": ["نہیں، کیونکہ قربانی کے لیے نقد رقم ہونا شرط ہے۔", "ہاں، اگر اس کے پاس ضرورت سے زائد ایسا سامان ہو جس کی قیمت نصاب تک پہنچتی ہو تو قربانی واجب ہوگی۔", "اس پر آدھی قربانی واجب ہوگی۔", "اس پر قربانی اگلے سال کے لیے ادھار ہو جائے گی۔"],
-                "answer": "ہاں، اگر اس کے پاس ضرورت سے زائد ایسا سامان ہو جس کی قیمت نصاب تک پہنچتی ہو تو قربانی واجب ہوگی۔"
-            },
-            {
-                "id": 61,
-                "question": "ایک شرعی فقیر نے قربانی کی نیت سے ایک بکرا خریدا، تو کیا اب اس پر قربانی واجب ہوگئی؟",
-                "options": ["نہیں، کیونکہ وہ فقیر ہے اور فقیر پر قربانی کبھی واجب نہیں ہوتی۔", "اس پر بکرا بیچ کر پیسے غریبوں کو دینا واجب ہے۔", "صرف تب واجب ہوگی جب کوئی اسے تحفہ دے۔", "ہاں، فقیر کے جانور خریدنے سے اس جانور کی قربانی اس پر لازم ہو جاتی ہے۔"],
-                "answer": "ہاں، فقیر کے جانور خریدنے سے اس جانور کی قربانی اس پر لازم ہو جاتی ہے۔"
-            },
-            {
-                "id": 62,
-                "question": "کیا کوئی شخص اپنی واجب قربانی چھوڑ کر اپنے مرحوم ماں باپ کی طرف سے قربانی کر سکتا ہے؟",
-                "options": ["ہاں، ماں باپ کا حق پہلے ہے۔", "ہاں، دونوں کا ثواب آدھا آدھا مل جائے گا۔", "اگر والدین وصیت کر گئے ہوں تو اپنی چھوڑنا جائز ہے۔", "نہیں، پہلے اپنی واجب قربانی ادا کرنا ضروری ہے۔"],
-                "answer": "نہیں، پہلے اپنی واجب قربانی ادا کرنا ضروری ہے۔"
-            },
-            {
-                "id": 63,
-                "question": "اگر کوئی صاحبِ نصاب قربانی کے دنوں میں جانور ذبح کرنے کے بجائے اس کی قیمت کسی غریب کو صدقہ کر دے، تو کیا قربانی ادا ہو جائے گی؟",
-                "options": ["نہیں، قربانی کے دنوں میں جانور ذبح کرنا ہی ضروری ہے، رقم دینا کافی نہیں۔", "اگر غریب بہت زیادہ مجبور ہو تو جائز ہے۔", "صرف آدھی قربانی کا ثواب ملے گا۔", "ہاں، غریب کی مدد کرنا زیادہ افضل ہے۔"],
-                "answer": "نہیں، قربانی کے دنوں میں جانور ذبح کرنا ہی ضروری ہے، رقم دینا کافی نہیں۔"
-            },
-            {
-                "id": 64,
-                "question": "ذوالحجہ کا چاند نظر آنے کے بعد قربانی کرنے والے کے لیے بال اور ناخن کاٹنے کا کیا حکم ہے؟",
-                "options": ["کاٹنا واجب ہے تاکہ صفائی ہو سکے۔", "نہ کاٹنا مستحب ہے تاکہ حاجیوں سے مشابہت ہو سکے۔", "اس کا قربانی سے کوئی تعلق نہیں اور یہ مکروہ ہے۔", "بال اور ناخن کاٹنا بالکل حرام ہے۔"],
-                "answer": "نہ کاٹنا مستحب ہے تاکہ حاجیوں سے مشابہت ہو سکے۔"
-            },
-            {
-                "id": 65,
-                "question": "اگر کوئی شخص قربانی کے تیسرے دن غروبِ آفتاب سے پہلے صاحبِ نصاب ہو جائے، تو کیا اس پر قربانی واجب ہوگی؟",
-                "options": ["صرف قیمت صدقہ کرنا واجب ہوگا۔", "ہاں، کیونکہ آخری وقت میں شرائط کا پایا جانا وجوب کے لیے کافی ہے۔", "نہیں، کیونکہ شروع کے دو دن وہ فقیر تھا۔", "اس پر اگلے سال دو قربانیاں واجب ہوں گی۔"],
-                "answer": "ہاں، کیونکہ آخری وقت میں شرائط کا پایا جانا وجوب کے لیے کافی ہے۔"
-            },
-            {
-                "id": 67,
-                "question": "کیا قربانی کے دنوں میں گوشت سے افطار کرنے کی نیت سے روزہ رکھنا شریعت میں ثابت ہے؟",
-                "options": ["اس دن آدھا روزہ (ظہر تک) رکھا جاتا ہے۔", "شریعت میں اس دن کوئی روزہ نہیں، البتہ قربانی کے گوشت سے کھانا شروع کرنا مستحب ہے۔", "یہ صرف حاجیوں کے لیے ہے۔", "ہاں، بقرعید کے دن روزہ رکھنا سنت ہے۔"],
-                "answer": "شریعت میں اس دن کوئی روزہ نہیں، البتہ قربانی کے گوشت سے کھانا شروع کرنا مستحب ہے۔"
-            },
-            {
-                "id": 68,
-                "question": "اگر گھر کے کئی افراد الگ الگ صاحبِ نصاب ہوں، تو کیا ایک قربانی سب کی طرف سے کافی ہوگی؟",
-                "options": ["گھر کے بڑے بیٹے پر واجب نہیں ہوتی جب تک باپ زندہ ہو۔", "صرف بیوی کی طرف سے کافی ہوگی، بیٹے پر الگ ہوگی۔", "نہیں، جتنے افراد الگ الگ صاحبِ نصاب ہیں، سب پر الگ قربانی واجب ہوگی۔", "ہاں، گھر میں ایک قربانی سب کی طرف سے کافی ہوتی ہے۔"],
-                "answer": "نہیں، جتنے افراد الگ الگ صاحبِ نصاب ہیں، سب پر الگ قربانی واجب ہوگی۔"
-            },
-            {
-                "id": 69,
-                "question": "اگر کسی صاحبِ نصاب نے قربانی کا جانور خریدا اور وہ جانور قربانی سے پہلے مر گیا یا چوری ہو گیا، تو کیا حکم ہے؟",
-                "options": ["اس پر لازم ہے کہ دوسرا جانور خرید کر قربانی کرے۔", "اس پر اگلے سال دو قربانیاں واجب ہوں گی۔", "اس پر سے قربانی معاف ہو جائے گی کیونکہ جانور مر گیا۔", "اس پر صرف آدھی قیمت صدقہ کرنا واجب ہوگا۔"],
-                "answer": "اس پر لازم ہے کہ دوسرا جانور خرید کر قربانی کرے۔"
-            },
-            {
-                "id": 70,
-                "question": "اگر کوئی مسبوق امام کے ساتھ غلطی سے تکبیرِ تشریق کہہ دے، تو اس پر کیا حکم ہے؟",
-                "options": ["اس کی نماز بالکل درست ہے اور کوئی اضافی حکم نہیں۔", "اس کی نماز فاسد ہو جائے گی اور اسے دہرانا ہوگا۔", "اس پر سجدۂ سہو واجب ہو جائے گا۔", "اس پر اپنی چھوٹی ہوئی نماز مکمل کرنے کے بعد دوبارہ تکبیر کہنا واجب نہیں ہوگا۔"],
-                "answer": "اس پر اپنی چھوٹی ہوئی نماز مکمل کرنے کے بعد دوبارہ تکبیر کہنا واجب نہیں ہوگا۔"
-            }
-        ];
+        // ====================== SUPABASE CONFIG ======================
+        const SUPABASE_URL = 'https://xprlayjalwvmefstjobz.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_37EYawmUsreUh5j7OtMnkA_1KvW8I0m';
 
+        // ====================== GLOBAL VARIABLES ======================
+        let currentUserEmail = "";
+        let Full_Name = "";
+        let questions = [];
         let currentQuestionIndex = 0;
-        let score = 0;
         let selectedAnswers = [];
-        let timerInterval;
-        let startTime;
-        let playerData = {};
+        let timerInterval = null;
+        let totalTimeTaken = 0;
+        let questionStartTime = 0;
 
-        // Tailwind script already included
-
-        function generateUserId() {
-            const id = "QZ-" + Math.floor(100000 + Math.random() * 900000);
-            document.getElementById("UserId").value = id;
-            return id;
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.background = isError ? '#ef4444' : '#10b981';
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 3000);
         }
 
-        // Form Submit
-        document.getElementById("playerForm").addEventListener("submit", async function (e) {
-            e.preventDefault();
+        function loadQuestions() {
+            if (typeof QuestionBanks !== "undefined" && QuestionBanks.length > 0) {
+                questions = Array.isArray(QuestionBanks[0]) ? QuestionBanks.flat() : QuestionBanks;
+                console.log(`✅ Loaded ${questions.length} questions`);
+            } else {
+                showToast("Question bank not loaded!", true);
+            }
+        }
 
-            playerData = {
-                UserId: document.getElementById("UserId").value,
-                Full_Name: document.getElementById("Full_Name").value,
-                Registered_Phone_Number: document.getElementById("Registered_Phone_Number").value,
-                College_Institution_Name: document.getElementById("College_Institution_Name").value,
-                Address_City: document.getElementById("Address_City").value,
-                Started_At: new Date().toISOString()
-            };
+        // ====================== CHECK EMAIL (REST API) ======================
+        async function checkEmailAndStartQuiz() {
+            const email = document.getElementById('userEmail').value.trim().toLowerCase();
+            const Full_Name = document.getElementById('Full_Name').value.trim().toLowerCase();
 
-            // Send to SheetDB
-            try {
-                await fetch("https://sheetdb.io/api/v1/y5ga5zan0r7j3?sheet=QuizPlayers", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ data: [playerData] })
-                });
-            } catch (err) {
-                console.log("Form saved locally (demo)");
+            if (!email || !email.includes('@')) {
+                showToast("Please enter a valid email address", true);
+                return;
             }
 
-            // Start Quiz
-            document.getElementById("registerScreen").classList.add("hidden");
-            document.getElementById("quizScreen").classList.remove("hidden");
+            try {
+                // Show loading state
+                const startButton = event.target;
+                const originalText = startButton.innerHTML;
+                startButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+                startButton.disabled = true;
 
-            document.getElementById("playerNameHeader").textContent = playerData.Full_Name;
-            startTime = Date.now();
-            startTimer();
-            loadQuestion(0);
-        });
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/QuizDetailResult?select=id&UserEmail=eq.${email}`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                    showToast("This email has already taken the quiz!", true);
+                    startButton.innerHTML = originalText;
+                    startButton.disabled = false;
+                    return;
+                }
+
+                currentUserEmail = email;
+                document.getElementById('email-section').classList.remove('active');
+                document.getElementById('quiz-section').classList.add('active');
+
+                resetQuizState();
+                loadQuestion();
+
+            } catch (err) {
+                console.error('Detailed error:', err);
+
+                // Provide more specific error messages
+                if (err.message.includes('Failed to fetch')) {
+                    showToast("Cannot connect to server. Please check your internet connection or try running on a local server (http://localhost)", true);
+                } else if (err.message.includes('CORS')) {
+                    showToast("CORS error: Please run this file on a web server instead of opening directly from file system", true);
+                } else {
+                    showToast(`Error: ${err.message}. Please try again.`, true);
+                }
+
+                // Reset button
+                const startButton = event.target;
+                startButton.innerHTML = '<i class="fas fa-play"></i> Start Quiz';
+                startButton.disabled = false;
+            }
+        }
+        function resetQuizState() {
+            currentQuestionIndex = 0;
+            selectedAnswers = new Array(questions.length).fill(null);
+            totalTimeTaken = 0;
+        }
 
         function startTimer() {
-            let seconds = 0;
+            clearInterval(timerInterval);
+            let timeLeft = 30;
+            questionStartTime = Date.now();
+
+            const timerEl = document.getElementById('timer');
+            const circle = document.getElementById('timer-circle');
+
+            timerEl.textContent = timeLeft;
+            circle.style.borderTopColor = 'var(--gold)';
+
             timerInterval = setInterval(() => {
-                seconds++;
-                const min = Math.floor(seconds / 60);
-                const sec = seconds % 60;
-                document.getElementById("timer").textContent =
-                    `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+                timeLeft--;
+                timerEl.textContent = timeLeft;
+                if (timeLeft <= 10) circle.style.borderTopColor = '#f87171';
+                if (timeLeft <= 0) autoNextQuestion();
             }, 1000);
         }
 
-        function loadQuestion(index) {
-            currentQuestionIndex = index;
-            const q = QuestionsBank[index];
+        function loadQuestion() {
+            if (!questions.length) return;
 
-            document.getElementById("qNumber").textContent = `سوال ${index + 1}`;
-            document.getElementById("currentQ").textContent = index + 1;
-            document.getElementById("questionText").textContent = q.question;
-            document.getElementById("progress").style.width = `${((index + 1) / QuestionsBank.length) * 100}%`;
+            const q = questions[currentQuestionIndex];
+            document.getElementById('question-number').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            document.getElementById('question-text').textContent = q.question;
 
-            const container = document.getElementById("optionsContainer");
-            container.innerHTML = "";
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
 
             q.options.forEach((option, i) => {
-                const btn = document.createElement("button");
-                btn.className = `option-btn w-full text-left p-6 rounded-3xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-lg transition-all`;
-                btn.innerHTML = `
-                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-2xl bg-slate-700 text-sm mr-4">${String.fromCharCode(65 + i)}</span>
-                    ${option}
-                `;
-                btn.onclick = () => selectAnswer(i, btn, q.answer);
-                container.appendChild(btn);
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.textContent = option;
+                div.onclick = () => selectAnswer(i);
+                container.appendChild(div);
             });
 
-            // Enable/disable prev/next
-            document.getElementById("prevBtn").disabled = index === 0;
+            startTimer();
         }
 
-        function selectAnswer(optionIndex, buttonElement, correctAnswer) {
-            const allBtns = document.querySelectorAll("#optionsContainer button");
+        function selectAnswer(index) {
+            selectedAnswers[currentQuestionIndex] = index;
 
-            // Disable all buttons after selection
-            allBtns.forEach(btn => btn.disabled = true);
+            document.querySelectorAll('.option').forEach((el, i) => {
+                if (i === index) el.classList.add('selected');
+                el.style.pointerEvents = 'none';
+            });
 
-            // Add selected style to the button user pressed
-            buttonElement.classList.add("selected");
-
-            // Get selected answer text
-            const selectedText = buttonElement.textContent.trim().substring(2).trim();
-            selectedAnswers[currentQuestionIndex] = selectedText;
-
-            // Optional: Increase score internally (but don't show feedback)
-            if (selectedText === correctAnswer) {
-                score++;
-
-            }
+            totalTimeTaken += Math.floor((Date.now() - questionStartTime) / 1000);
+            clearInterval(timerInterval);
 
             setTimeout(() => {
-                if (currentQuestionIndex < QuestionsBank.length - 1) {
-                    loadQuestion(currentQuestionIndex + 1);
+                if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                    loadQuestion();
                 } else {
-                    endQuiz();
+                    showResults();
                 }
-            }, 750);
+            }, 1200);
         }
 
-        function nextQuestion() {
-            if (currentQuestionIndex < QuestionsBank.length - 1) {
-                loadQuestion(currentQuestionIndex + 1);
+        function autoNextQuestion() {
+            totalTimeTaken += 30;
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
             } else {
-                endQuiz();
+                showResults();
             }
         }
 
-        setInterval(() => {
-            nextQuestion()
-        }, 30000);
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                loadQuestion(currentQuestionIndex - 1);
-            }
+        function calculateScore() {
+            return selectedAnswers.reduce((score, ans, i) => {
+                return (ans !== null && questions[i].options[ans] === questions[i].answer) ? score + 1 : score;
+            }, 0);
         }
 
-        function endQuiz() {
+        function showResults() {
             clearInterval(timerInterval);
-            const endTime = new Date().toISOString();
-            const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+            const correct = calculateScore();
+            const percentage = Math.round((correct / questions.length) * 100);
 
-            const resultData = {
-                ...playerData,
-                Ended_At: endTime,
-                Total_Time_Taken: `${Math.floor(timeTaken / 60)}m ${timeTaken % 60}s`,
-                Total_Correct: score,
-                Total_Incorrect: QuestionsBank.length - score,
-                PlayerId: playerData.UserId,
-                PlayerName: playerData.Full_Name
+            document.getElementById('quiz-section').classList.remove('active');
+            document.getElementById('results-section').classList.add('active');
+
+            document.getElementById('score-circle').textContent = `${percentage}%`;
+            document.getElementById('total-q').textContent = questions.length;
+            document.getElementById('correct-count').textContent = correct;
+            document.getElementById('incorrect-count').textContent = questions.length - correct;
+
+            const min = Math.floor(totalTimeTaken / 60);
+            const sec = totalTimeTaken % 60;
+            document.getElementById('time-taken').innerHTML = `Total Time: <strong>${min} min ${sec} sec</strong>`;
+        }
+
+        // ====================== SUBMIT RESULT (REST API) ======================
+        async function submitResult() {
+            const correct = calculateScore();
+
+
+            const min = Math.floor(totalTimeTaken / 60);
+            const sec = totalTimeTaken % 60;
+
+            const payload = {
+                Full_Name: Full_Name,
+                UserEmail: currentUserEmail,
+                Total_Time: `${min}m ${sec}`,
+                Total_Correct: correct,
+                Total_Incorrect: questions.length - correct,
+                UserId: 'USR-' + Date.now(),
+                SubMitted_At: new Date().toISOString(),
+                Ended_At: new Date().toISOString()
             };
 
-            // Send Result
-            fetch("https://sheetdb.io/api/v1/y5ga5zan0r7j3?sheet=QuizInfo", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ data: [resultData] })
-            }).catch(() => { });
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/QuizDetailResult`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(payload)
+                });
 
-            // Show Result Screen
-            document.getElementById("quizScreen").classList.add("hidden");
-            document.getElementById("resultScreen").classList.remove("hidden");
+                if (!response.ok) throw new Error('Failed to save');
 
-            document.getElementById("correctCount").textContent = score;
-            document.getElementById("incorrectCount").textContent = QuestionsBank.length - score;
-            document.getElementById("resName").textContent = playerData.Full_Name;
-            document.getElementById("resPlayerId").textContent = playerData.UserId;
-            document.getElementById("resStart").textContent = new Date(playerData.Started_At).toLocaleTimeString('ur-PK');
-            document.getElementById("resEnd").textContent = new Date().toLocaleTimeString('ur-PK');
-            document.getElementById("resTime").textContent = resultData.Total_Time_Taken;
+                showToast("✅ Results saved successfully! JazakAllah", false);
+                setTimeout(() => location.reload(), 2500);
 
-            // Score Circle
-            const percentage = Math.round((score / QuestionsBank.length) * 100);
-            const circle = document.getElementById("scoreCircle");
-            circle.textContent = percentage + "%";
-            if (percentage >= 80) {
-                circle.style.borderColor = "#4ade80";
-            } else if (percentage >= 60) {
-                circle.style.borderColor = "#eab308";
-            } else {
-                circle.style.borderColor = "#f87171";
+            } catch (err) {
+                console.error(err);
+                showToast("Failed to save results. Please try again.", true);
             }
-        }
-
-        function restartQuiz() {
-            window.location.reload();
         }
 
         // Initialize
-        window.onload = () => {
-            generateUserId();
-            // You can add more questions here if needed
-            console.log("%cQuiz Ready - Responsive & Beautiful", "color: #10b981; font-size: 16px; font-weight: bold");
-        };
+        window.onload = loadQuestions;
     </script>
 </body>
 
