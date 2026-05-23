@@ -1,502 +1,140 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eid Quiz - Anjuman-e-Huda</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eid-ul-Adha Quiz Competition - Thank You</title>
 
-        :root {
-            --islamic-green: #0f6b3f;
-            --gold: #d4af37;
-        }
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    body{
+      background: linear-gradient(135deg, #0f4c3a, #1d7a5e);
+      color: white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      padding:20px;
+    }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0a1f1a 0%, #0f2e24 100%);
-            color: #e5e7eb;
-            min-height: 100vh;
-        }
+    .container{
+      max-width:800px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius:20px;
+      padding:50px 35px;
+      text-align:center;
+      box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 15px;
-        }
+    .moon{
+      font-size:60px;
+      margin-bottom:20px;
+    }
 
-        header {
-            text-align: center;
-            padding: 2rem 0;
-        }
+    h1{
+      font-size:42px;
+      margin-bottom:20px;
+      color:#ffe082;
+    }
 
-        .logo {
-            font-family: 'Amiri', serif;
-            font-size: 3.2rem;
-            font-weight: 700;
-            color: var(--gold);
-            text-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
-        }
+    h2{
+      font-size:24px;
+      margin-bottom:25px;
+      font-weight:normal;
+    }
 
-        .organizer {
-            color: #94a3b8;
-            font-size: 1.1rem;
-            margin-top: 5px;
-        }
+    p{
+      font-size:18px;
+      line-height:1.8;
+      margin-bottom:20px;
+      color:#f1f1f1;
+    }
 
-        .section {
-            display: none;
-            animation: fadeIn 0.6s ease;
-        }
+    .highlight{
+      color:#ffe082;
+      font-weight:bold;
+    }
 
-        .active {
-            display: block;
-        }
+    .footer{
+      margin-top:30px;
+      font-size:16px;
+      opacity:0.9;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
+    .btn{
+      display:inline-block;
+      margin-top:25px;
+      padding:14px 30px;
+      background:#ffe082;
+      color:#0f4c3a;
+      text-decoration:none;
+      border-radius:50px;
+      font-weight:bold;
+      transition:0.3s;
+    }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .btn:hover{
+      background:white;
+      transform:scale(1.05);
+    }
 
-        .card {
-            background: rgba(15, 43, 32, 0.95);
-            backdrop-filter: blur(12px);
-            border: 2px solid var(--gold);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-        }
+    @media(max-width:600px){
+      h1{
+        font-size:30px;
+      }
 
-        input,
-        button {
-            width: 100%;
-            padding: 16px 20px;
-            margin: 12px 0;
-            border-radius: 12px;
-            font-size: 1.05rem;
-        }
+      h2{
+        font-size:20px;
+      }
 
-        input {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--gold);
-            color: white;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #4ade80;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, var(--islamic-green), #10b981);
-            color: white;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .timer-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 10px solid #1f3a2f;
-            border-top: 10px solid var(--gold);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--gold);
-        }
-
-        .progress-bar {
-            height: 12px;
-            background: linear-gradient(90deg, var(--gold), #4ade80);
-            border-radius: 9999px;
-            transition: width 0.4s ease;
-        }
-
-        .question-text {
-            font-family: 'Amiri', serif;
-            font-size: 1.45rem;
-            line-height: 1.7;
-            margin: 25px 0;
-            min-height: 130px;
-        }
-
-        .option {
-            background: rgba(255, 255, 255, 0.06);
-            border: 2px solid #4b6e5e;
-            border-radius: 18px;
-            padding: 22px;
-            margin: 14px 0;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.1rem;
-        }
-
-        .option:hover {
-            border-color: var(--gold);
-            transform: scale(1.03);
-        }
-
-        .option.selected {
-            background: #1e3a2f;
-            border-color: #4ade80;
-        }
-
-        .score-circle {
-            width: 190px;
-            height: 190px;
-            border-radius: 50%;
-            margin: 25px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.2rem;
-            font-weight: 700;
-            border: 16px solid #4ade80;
-            background: rgba(16, 185, 129, 0.1);
-            color: #4ade80;
-        }
-    </style>
+      p{
+        font-size:16px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <div class="container">
-        <header>
-            <h1 class="logo">عيد الأضحى كوئز</h1>
-            <p class="organizer">Conducted by <strong>Anjuman-e-Huda</strong></p>
-        </header>
 
-        <!-- Email Section -->
-        <div id="email-section" class="section active">
-            <div class="card" style="max-width: 500px; margin: 80px auto;">
-                <h2 style="text-align:center; margin-bottom:1.5rem; color:var(--gold);">Welcome to Eid Quiz</h2>
-                <p style="text-align:center; color:#a3e6c8; margin-bottom:25px;">One Email = One Attempt</p>
-                <!-- <p style="text-align:center; color:#a3e6c8; margin-bottom:25px;"></p> -->
-                
-                <input type="email" id="userEmail" placeholder="Enter your Registered Email.....">
-                <input type="email" id="Full_Name" placeholder="Enter your Full Name.....">
+  <div class="container">
+    <div class="moon">🌙</div>
 
-                <button onclick="checkEmailAndStartQuiz()" class="btn-primary" style="margin-top:25px;">
-                    <i class="fas fa-play"></i> Start Quiz
-                </button>
-            </div>
-        </div>
+    <h1>Thank You!</h1>
 
-        <!-- Quiz Section -->
-        <div id="quiz-section" class="section">
-            <div class="card">
-                <div class="progress-bar" id="progress" style="width:0%; margin-bottom:18px;"></div>
+    <h2>Eid-ul-Adha Quiz Competition Successfully Concluded</h2>
 
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <span id="question-number" style="font-size:1.2rem; font-weight:600; color:var(--gold);"></span>
-                    <div class="timer-circle" id="timer-circle"><span id="timer">30</span></div>
-                </div>
+    <p>
+      We sincerely thank everyone who participated in our
+      <span class="highlight">Eid-ul-Adha Quiz Competition</span>.
+    </p>
 
-                <h3 id="question-text" class="question-text"></h3>
-                <div id="options-container"></div>
-            </div>
-        </div>
+    <p>
+      Your enthusiasm, knowledge, and support made this event
+      truly successful and memorable.
+    </p>
 
-        <!-- Results Section -->
-        <div id="results-section" class="section">
-            <div class="card" style="max-width:620px; margin:40px auto; text-align:center;">
-                <h2 style="color:#4ade80;">Quiz Completed Successfully!</h2>
+    <p>
+      Congratulations to all the winners and participants for
+      your wonderful efforts and active participation.
+    </p>
 
-                <div class="score-circle" id="score-circle">85%</div>
+    <p>
+      May this Eid bring peace, happiness, and countless blessings
+      to you and your family.
+    </p>
 
-                <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:15px; margin:25px 0;">
-                    <div>
-                        <p style="color:#94a3b8;">Total</p>
-                        <p id="total-q" style="font-size:2.2rem; font-weight:700;">20</p>
-                    </div>
-                    <div>
-                        <p style="color:#4ade80;">Correct</p>
-                        <p id="correct-count" style="font-size:2.2rem; font-weight:700; color:#4ade80;">17</p>
-                    </div>
-                    <div>
-                        <p style="color:#f87171;">Incorrect</p>
-                        <p id="incorrect-count" style="font-size:2.2rem; font-weight:700; color:#f87171;">3</p>
-                    </div>
-                </div>
+    <a href="#" class="btn">See You Again</a>
 
-                <p id="time-taken" style="font-size:1.35rem; margin:20px 0;"></p>
-
-                <button onclick="submitResult()" class="btn-primary" style="margin-top:25px;">
-                    <i class="fas fa-save"></i> Save My Results
-                </button>
-            </div>
-        </div>
+    <div class="footer">
+      ✨ Eid Mubarak ✨
     </div>
+  </div>
 
-    <div id="toast"
-        style="position:fixed; bottom:25px; right:25px; padding:16px 26px; border-radius:16px; color:white; display:none; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:9999;">
-    </div>
-
-    <script src="QuestionBanks.js"></script>
-    <script>
-        // ====================== SUPABASE CONFIG ======================
-        const SUPABASE_URL = 'https://xprlayjalwvmefstjobz.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_37EYawmUsreUh5j7OtMnkA_1KvW8I0m';
-
-        // ====================== GLOBAL VARIABLES ======================
-        let currentUserEmail = "";
-        let Full_Name = "";
-        let questions = [];
-        let currentQuestionIndex = 0;
-        let selectedAnswers = [];
-        let timerInterval = null;
-        let totalTimeTaken = 0;
-        let questionStartTime = 0;
-
-        function showToast(msg, isError = false) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.style.background = isError ? '#ef4444' : '#10b981';
-            toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 3000);
-        }
-
-        function loadQuestions() {
-            if (typeof QuestionBanks !== "undefined" && QuestionBanks.length > 0) {
-                questions = Array.isArray(QuestionBanks[0]) ? QuestionBanks.flat() : QuestionBanks;
-                console.log(`✅ Loaded ${questions.length} questions`);
-            } else {
-                showToast("Question bank not loaded!", true);
-            }
-        }
-
-        // ====================== CHECK EMAIL (REST API) ======================
-        async function checkEmailAndStartQuiz() {
-            const email = document.getElementById('userEmail').value.trim().toLowerCase();
-            const Full_Name = document.getElementById('Full_Name').value.trim().toLowerCase();
-
-            if (!email || !email.includes('@')) {
-                showToast("Please enter a valid email address", true);
-                return;
-            }
-
-            try {
-                // Show loading state
-                const startButton = event.target;
-                const originalText = startButton.innerHTML;
-                startButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
-                startButton.disabled = true;
-
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/QuizDetailResult?select=id&UserEmail=eq.${email}`, {
-                    method: 'GET',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-
-                if (data && data.length > 0) {
-                    showToast("This email has already taken the quiz!", true);
-                    startButton.innerHTML = originalText;
-                    startButton.disabled = false;
-                    return;
-                }
-
-                currentUserEmail = email;
-                document.getElementById('email-section').classList.remove('active');
-                document.getElementById('quiz-section').classList.add('active');
-
-                resetQuizState();
-                loadQuestion();
-
-            } catch (err) {
-                console.error('Detailed error:', err);
-
-                // Provide more specific error messages
-                if (err.message.includes('Failed to fetch')) {
-                    showToast("Cannot connect to server. Please check your internet connection or try running on a local server (http://localhost)", true);
-                } else if (err.message.includes('CORS')) {
-                    showToast("CORS error: Please run this file on a web server instead of opening directly from file system", true);
-                } else {
-                    showToast(`Error: ${err.message}. Please try again.`, true);
-                }
-
-                // Reset button
-                const startButton = event.target;
-                startButton.innerHTML = '<i class="fas fa-play"></i> Start Quiz';
-                startButton.disabled = false;
-            }
-        }
-        function resetQuizState() {
-            currentQuestionIndex = 0;
-            selectedAnswers = new Array(questions.length).fill(null);
-            totalTimeTaken = 0;
-        }
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            let timeLeft = 30;
-            questionStartTime = Date.now();
-
-            const timerEl = document.getElementById('timer');
-            const circle = document.getElementById('timer-circle');
-
-            timerEl.textContent = timeLeft;
-            circle.style.borderTopColor = 'var(--gold)';
-
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                timerEl.textContent = timeLeft;
-                if (timeLeft <= 10) circle.style.borderTopColor = '#f87171';
-                if (timeLeft <= 0) autoNextQuestion();
-            }, 1000);
-        }
-
-        function loadQuestion() {
-            if (!questions.length) return;
-
-            const q = questions[currentQuestionIndex];
-            document.getElementById('question-number').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
-            document.getElementById('question-text').textContent = q.question;
-
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            document.getElementById('progress').style.width = `${progress}%`;
-
-            const container = document.getElementById('options-container');
-            container.innerHTML = '';
-
-            q.options.forEach((option, i) => {
-                const div = document.createElement('div');
-                div.className = 'option';
-                div.textContent = option;
-                div.onclick = () => selectAnswer(i);
-                container.appendChild(div);
-            });
-
-            startTimer();
-        }
-
-        function selectAnswer(index) {
-            selectedAnswers[currentQuestionIndex] = index;
-
-            document.querySelectorAll('.option').forEach((el, i) => {
-                if (i === index) el.classList.add('selected');
-                el.style.pointerEvents = 'none';
-            });
-
-            totalTimeTaken += Math.floor((Date.now() - questionStartTime) / 1000);
-            clearInterval(timerInterval);
-
-            setTimeout(() => {
-                if (currentQuestionIndex < questions.length - 1) {
-                    currentQuestionIndex++;
-                    loadQuestion();
-                } else {
-                    showResults();
-                }
-            }, 1200);
-        }
-
-        function autoNextQuestion() {
-            totalTimeTaken += 30;
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function calculateScore() {
-            return selectedAnswers.reduce((score, ans, i) => {
-                return (ans !== null && questions[i].options[ans] === questions[i].answer) ? score + 1 : score;
-            }, 0);
-        }
-
-        function showResults() {
-            clearInterval(timerInterval);
-            const correct = calculateScore();
-            const percentage = Math.round((correct / questions.length) * 100);
-
-            document.getElementById('quiz-section').classList.remove('active');
-            document.getElementById('results-section').classList.add('active');
-
-            document.getElementById('score-circle').textContent = `${percentage}%`;
-            document.getElementById('total-q').textContent = questions.length;
-            document.getElementById('correct-count').textContent = correct;
-            document.getElementById('incorrect-count').textContent = questions.length - correct;
-
-            const min = Math.floor(totalTimeTaken / 60);
-            const sec = totalTimeTaken % 60;
-            document.getElementById('time-taken').innerHTML = `Total Time: <strong>${min} min ${sec} sec</strong>`;
-        }
-
-        // ====================== SUBMIT RESULT (REST API) ======================
-        async function submitResult() {
-            const correct = calculateScore();
-
-
-            const min = Math.floor(totalTimeTaken / 60);
-            const sec = totalTimeTaken % 60;
-
-            const payload = {
-                Full_Name: Full_Name,
-                UserEmail: currentUserEmail,
-                Total_Time: `${min}m ${sec}`,
-                Total_Correct: correct,
-                Total_Incorrect: questions.length - correct,
-                UserId: 'USR-' + Date.now(),
-                SubMitted_At: new Date().toISOString(),
-                Ended_At: new Date().toISOString()
-            };
-
-            try {
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/QuizDetailResult`, {
-                    method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=minimal'
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) throw new Error('Failed to save');
-
-                showToast("✅ Results saved successfully! JazakAllah", false);
-                setTimeout(() => location.reload(), 2500);
-
-            } catch (err) {
-                console.error(err);
-                showToast("Failed to save results. Please try again.", true);
-            }
-        }
-
-        // Initialize
-        window.onload = loadQuestions;
-    </script>
 </body>
-
 </html>
